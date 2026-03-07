@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+    env_file:
+      - ./.env.example
+    environment:
+      SWARM_FRONTEND_ORIGIN: http://localhost:5173
+      SWARM_OLLAMA_HOST: ${SWARM_OLLAMA_HOST:-http://host.docker.internal:11434}
+      SWARM_OLLAMA_MODEL: ${SWARM_OLLAMA_MODEL:-llama3.1}
+      SWARM_OLLAMA_API_KEY: ${SWARM_OLLAMA_API_KEY:-}
+      SWARM_LLM_ENABLED: ${SWARM_LLM_ENABLED:-true}
+      SWARM_LLM_PROVIDER: ${SWARM_LLM_PROVIDER:-ollama}
+      SWARM_TELEMETRY_DB_PATH: /app/data/telemetry.sqlite3
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - backend_data:/app/data
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8000}
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  backend_data:
