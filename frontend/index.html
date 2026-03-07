@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tiny Swarm Maze</title>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div id="hud">
+        <header class="topbar panel">
+          <div>
+            <h1>Tiny Swarm Maze</h1>
+            <p class="subtle">Deterministic swarm sim + Ollama command layer</p>
+          </div>
+          <div id="status-pills" class="pill-row"></div>
+        </header>
+
+        <div class="layout">
+          <section class="board-area panel">
+            <div class="board-toolbar">
+              <div class="toolbar-left">
+                <button id="pause-toggle">Pause</button>
+                <button id="reset-run">Reset</button>
+              </div>
+              <div class="toolbar-right">
+                <label>
+                  Difficulty
+                  <select id="difficulty-select">
+                    <option value="starter">Starter</option>
+                    <option value="standard" selected>Standard</option>
+                    <option value="dense">Dense</option>
+                  </select>
+                </label>
+                <label>
+                  Seed
+                  <input id="seed-input" type="number" min="1" max="2147483647" placeholder="auto" />
+                </label>
+              </div>
+            </div>
+            <div class="board-shell">
+              <div id="game-root" class="game-root"></div>
+            </div>
+          </section>
+
+          <aside class="sidebar">
+            <section class="panel">
+              <h2>Selected Unit</h2>
+              <div id="selected-unit" class="stack"></div>
+            </section>
+
+            <section class="panel">
+              <h2>Command Console</h2>
+              <div class="stack">
+                <div class="hint">Examples: <code>blue stop</code> <code>all regroup</code> <code>find key</code></div>
+                <div class="row">
+                  <input id="command-input" type="text" maxlength="240" placeholder="Type command" />
+                  <button id="send-command">Send</button>
+                </div>
+                <div class="row wrap">
+                  <button data-quick="all regroup">All regroup</button>
+                  <button data-quick="find key">Find key</button>
+                  <button data-quick="go east">Sweep east</button>
+                  <button data-quick="resume">Resume</button>
+                </div>
+                <div id="parse-result" class="hint"></div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <h2>Queued Commands</h2>
+              <div id="queued-commands" class="queue-list"></div>
+            </section>
+
+            <section class="panel">
+              <h2>Metrics</h2>
+              <div id="metrics-panel" class="stack metrics"></div>
+            </section>
+
+            <section class="panel">
+              <h2>Settings</h2>
+              <div class="stack">
+                <label>
+                  Profile
+                  <select id="profile-select">
+                    <option value="rules">rules</option>
+                    <option value="ollama_fast">ollama_fast</option>
+                    <option value="ollama_slow">ollama_slow</option>
+                    <option value="ollama_cloud_kimi">ollama_cloud_kimi</option>
+                  </select>
+                </label>
+                <label>
+                  Base URL
+                  <input id="base-url-input" type="text" placeholder="http://localhost:11434" />
+                </label>
+                <label>
+                  Model
+                  <input id="model-input" type="text" placeholder="llama3.1" />
+                </label>
+                <label>
+                  API Key
+                  <input id="api-key-input" type="password" placeholder="optional" />
+                </label>
+                <div class="row three">
+                  <label>
+                    Timeout (ms)
+                    <input id="timeout-input" type="number" min="250" max="120000" step="50" />
+                  </label>
+                  <label>
+                    Retries
+                    <input id="retries-input" type="number" min="0" max="6" step="1" />
+                  </label>
+                  <label>
+                    Delay (ms)
+                    <input id="delay-input" type="number" min="0" max="15000" step="50" />
+                  </label>
+                </div>
+                <div class="row wrap">
+                  <button id="apply-settings">Apply</button>
+                  <button id="clear-api-key">Clear key</button>
+                </div>
+                <div class="hint">Provider settings are stored in browser local storage until site data is cleared.</div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <h2>Event Log</h2>
+              <div id="event-log" class="event-log"></div>
+            </section>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
