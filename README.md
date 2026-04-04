@@ -1,5 +1,8 @@
 # Tiny Swarm Maze
 
+![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python&logoColor=white) ![GitHub stars](https://img.shields.io/github/stars/RedBeret/tiny-swarm-maze?style=social)
+
+
 Tiny Swarm Maze is a retro-style swarm command game where you guide a noisy, semi-autonomous squad through a randomized maze using short natural-language commands.
 
 Instead of faking AI behavior, this project runs a deterministic simulation core and plugs real model parsing on top through an Ollama adapter. That means you can switch between rules-only, local model, and cloud model profiles while keeping gameplay responsive.
