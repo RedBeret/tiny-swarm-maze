@@ -55,16 +55,33 @@ Instead of faking AI behavior, this project runs a deterministic simulation core
 - `rules`: fully offline deterministic parser
 - `ollama_fast`: low-latency local model profile
 - `ollama_slow`: intentionally slower profile for queued-command behavior testing
-- `ollama_cloud_kimi`: cloud profile (default model `kimi-k2.5:cloud`, configurable)
+- `ollama_cloud_kimi`: optional cloud profile for `kimi-k2.5:cloud`
+
+The backend defaults are currently tuned for local play:
+
+- default profile: `rules`
+- default provider: `ollama`
+- default model: `llama3.1`
 
 ## Quick Start
 
 ### 1) Backend
 
+#### macOS / Linux
+
 ```bash
 cd backend
 python -m venv .venv
-# PowerShell:
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+#### Windows PowerShell
+
+```powershell
+cd backend
+python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
@@ -79,6 +96,10 @@ npm run dev
 ```
 
 Open [http://localhost:5173](http://localhost:5173)
+
+### 3) Optional local Ollama config
+
+Copy `.env.example` to `.env` and keep the default local settings if you want to test with a local Ollama server. The included example now defaults to `http://localhost:11434`.
 
 ## Commands to Try
 
@@ -128,6 +149,16 @@ cd backend
 python -m pip install -r requirements-dev.txt
 python -m pytest -q
 ```
+
+Frontend verification:
+
+```bash
+cd frontend
+npm install
+npm run build
+```
+
+If you use the root `Makefile`, treat it as a Unix convenience layer. Windows users should run the explicit backend and frontend commands above instead of the `make` targets.
 
 ## Roadmap Ideas
 
